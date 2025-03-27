@@ -1,6 +1,7 @@
 package edu.grinnell.csc207.trees;
 
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * A binary tree that satisifies the binary search tree invariant.
@@ -80,35 +81,79 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
 
     ///// Part 1: Traversals
 
+    private void toListInorderH(Node<T> node, List<T> list) {
+        if (node == null) {
+            return;
+        }
+        toListInorderH(node.left, list);
+        list.add(node.value);
+        toListInorderH(node.right, list);
+    }
+    
     /**
      * @return the elements of this tree collected via an in-order traversal
      */
     public List<T> toListInorder() {
-        throw new UnsupportedOperationException();
+        List<T> list = new ArrayList<T>();
+        toListInorderH(root, list);
+        return list;
     }
 
+    private void toListPreorderH(Node<T> node, List<T> list) {
+        if (node == null) {
+            return;
+        }
+        list.add(node.value);
+        toListPreorderH(node.left, list);
+        toListPreorderH(node.right, list);
+    }
     /**
      * @return the elements of this tree collected via a pre-order traversal
      */
     public List<T> toListPreorder() {
-        throw new UnsupportedOperationException();
+        List<T> list = new ArrayList<T>();
+        toListPreorderH(root, list);
+        return list;
     }
 
+    private void toListPostorderH(Node<T> node, List<T> list) {
+        if (node == null) {
+            return;
+        }
+        toListPostorderH(node.left, list);
+        toListPostorderH(node.right, list);
+        list.add(node.value);
+    }
+    
     /**
      * @return the elements of this tree collected via a post-order traversal
      */
     public List<T> toListPostorder() {
-        throw new UnsupportedOperationException();
+        List<T> list = new ArrayList<T>();
+        toListPostorderH(root, list);
+        return list;
     }
 
     ///// Part 2: Contains
+    
+    private boolean containsH(Node<T> node, T value) {
+        if (node.value.compareTo(value) > 0) {
+            return containsH(node.left, value);
+        } else if (node.value.compareTo(value) < 0) {
+            return containsH(node.right, value);
+        } else if (node.value.compareTo(value) == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     /**
      * @param value the value to search for
-     * @return true iff the tree contains <code>value</code>
+     * @return true if and only if the tree contains <code>value</code>
      */
     public boolean contains(T value) {
-        throw new UnsupportedOperationException();
+        return containsH(root, value);
     }
 
     ///// Part 3: Pretty Printing
