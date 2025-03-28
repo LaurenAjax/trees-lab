@@ -59,6 +59,11 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
         return sizeH(root);
     }
 
+    /**
+     * @param value the value to be added
+     * @param root the node in the tree we are currently in
+     * @return the node now containing the given value
+     */
     private Node<T> insertH(T value, Node<T> root) {
         if (root == null) {
             return new Node<T>(value);
@@ -81,6 +86,10 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
 
     ///// Part 1: Traversals
 
+    /**
+     * @param node the node we are currently in
+     * @param list the list of the values in the tree
+     */
     private void toListInorderH(Node<T> node, List<T> list) {
         if (node == null) {
             return;
@@ -99,6 +108,10 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
         return list;
     }
 
+    /**
+     * @param node the node we are currently in
+     * @param list the list of the values in the tree
+     */
     private void toListPreorderH(Node<T> node, List<T> list) {
         if (node == null) {
             return;
@@ -107,6 +120,7 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
         toListPreorderH(node.left, list);
         toListPreorderH(node.right, list);
     }
+    
     /**
      * @return the elements of this tree collected via a pre-order traversal
      */
@@ -116,6 +130,10 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
         return list;
     }
 
+    /**
+     * @param node the node we are currently in
+     * @param list the list of the values in the tree
+     */
     private void toListPostorderH(Node<T> node, List<T> list) {
         if (node == null) {
             return;
@@ -136,6 +154,11 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
 
     ///// Part 2: Contains
     
+    /**
+     * @param node the node we are currently in
+     * @param value the value we are looking for
+     * @return whether or not the value was found in the tree
+     */
     private boolean containsH(Node<T> node, T value) {
         if (node == null) {
             return false;
