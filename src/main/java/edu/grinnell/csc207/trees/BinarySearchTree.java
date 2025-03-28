@@ -137,14 +137,14 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
     ///// Part 2: Contains
     
     private boolean containsH(Node<T> node, T value) {
-        if (node.value.compareTo(value) > 0) {
+        if (node == null) {
+            return false;
+        } else if (node.value.compareTo(value) > 0) {
             return containsH(node.left, value);
         } else if (node.value.compareTo(value) < 0) {
             return containsH(node.right, value);
-        } else if (node.value.compareTo(value) == 0) {
-            return true;
         } else {
-            return false;
+            return true;
         }
     }
 
@@ -158,23 +158,63 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
 
     ///// Part 3: Pretty Printing
 
+    private String toStringPreorderH(Node<T> node, String str) {
+        if (node == null) {
+            return "";
+        }
+        return ", " + node.value + toStringPreorderH(node.left, str) + toStringPreorderH(node.right, str);
+    }
+
     /**
      * @return a string representation of the tree obtained via an pre-order traversal in the
      *         form: "[v0, v1, ..., vn]"
      */
     public String toStringPreorder() {
-        throw new UnsupportedOperationException();
+        String str = "[";
+        str = str + root.value + toStringPreorderH(root.left, str) + toStringPreorderH(root.right, str) + "]";
+        return str;
     }
 
     ///// Part 4: Deletion
   
     /*
      * The three cases of deletion are:
-     * 1. (TODO: fill me in!)
-     * 2. (TODO: fill me in!)
-     * 3. (TOOD: fill me in!)
+     * 1. The node containing the value has no children.
+     * 2. The node containing the value has one child.
+     * 3. The node containing the value has two children.
      */
 
+    public void rightmost(Node<T> node, Node<T> save) {
+        if (node.right == null) {
+            node.right = save;
+        } else {
+            rightmost(node.right, save);
+        }
+    }
+
+    public Node deleteH(Node<T> node, T value) {
+        if (node == null) {
+            return null;
+        } else if (node.value.compareTo(value) > 0) {
+            node.left = deleteH(node.left, value);
+        } else if (node.value.compareTo(value) < 0) {
+            node.right = deleteH(node.right, value);
+        } else {
+            if (node.left == null && node.right == null) {
+                node = null;
+            } else if (node.left == null) {
+                node = node.right;
+            } else if (node.right == null) {
+                node = node.left;
+            } else {
+                Node<T> save = node.right;
+                node = node.left;
+                rightmost(node, save);
+            }
+        }
+        return node;
+    }
+    
     /**
      * Modifies the tree by deleting the first occurrence of <code>value</code> found
      * in the tree.
@@ -182,6 +222,10 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
      * @param value the value to delete
      */
     public void delete(T value) {
-        throw new UnsupportedOperationException();
+        if (contains(value)) {
+            root = deleteH(root, value);
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 }
