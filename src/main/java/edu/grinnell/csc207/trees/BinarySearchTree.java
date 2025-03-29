@@ -181,11 +181,15 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
 
     ///// Part 3: Pretty Printing
 
-    private String toStringPreorderH(Node<T> node, String str) {
+    /**
+     * @param node the node we are currently in
+     * @return a string representation of the pre-order traversal
+     */
+    private String toStringPreorderH(Node<T> node) {
         if (node == null) {
             return "";
         }
-        return ", " + node.value + toStringPreorderH(node.left, str) + toStringPreorderH(node.right, str);
+        return ", " + node.value + toStringPreorderH(node.left) + toStringPreorderH(node.right);
     }
 
     /**
@@ -197,7 +201,7 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
             return "[]";
         }
         String str = "[";
-        str = str + root.value + toStringPreorderH(root.left, str) + toStringPreorderH(root.right, str) + "]";
+        str = str + root.value + toStringPreorderH(root.left) + toStringPreorderH(root.right) + "]";
         return str;
     }
 
@@ -210,6 +214,10 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
      * 3. The node containing the value has two children.
      */
 
+    /**
+     * @param node the node we are currently in
+     * @param save the node we are trying to place at the rightmost point of the tree
+     */
     private void rightmost(Node<T> node, Node<T> save) {
         if (node.right == null) {
             node.right = save;
@@ -218,6 +226,11 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
         }
     }
 
+    /**
+     * @param node the node we are currently in
+     * @param value the value we are trying to remove from the tree
+     * @return 
+     */
     private Node deleteH(Node<T> node, T value) {
         if (node == null) {
             return null;
