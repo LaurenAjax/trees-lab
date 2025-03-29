@@ -193,6 +193,9 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
      *         form: "[v0, v1, ..., vn]"
      */
     public String toStringPreorder() {
+        if (root == null) {
+            return "[]";
+        }
         String str = "[";
         str = str + root.value + toStringPreorderH(root.left, str) + toStringPreorderH(root.right, str) + "]";
         return str;
@@ -207,7 +210,7 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
      * 3. The node containing the value has two children.
      */
 
-    public void rightmost(Node<T> node, Node<T> save) {
+    private void rightmost(Node<T> node, Node<T> save) {
         if (node.right == null) {
             node.right = save;
         } else {
@@ -215,7 +218,7 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
         }
     }
 
-    public Node deleteH(Node<T> node, T value) {
+    private Node deleteH(Node<T> node, T value) {
         if (node == null) {
             return null;
         } else if (node.value.compareTo(value) > 0) {
